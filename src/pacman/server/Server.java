@@ -1,11 +1,17 @@
 package pacman.server;
 
+import com.google.gson.Gson;
+import pacman.api.GameInfo;
+import pacman.api.Ghost;
+import pacman.api.Pacman;
 import pacman.api.RequestCodes;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server {
     public static void main(String[] args) throws Exception {
@@ -15,6 +21,8 @@ public class Server {
             Socket socket = serverSocket.accept();
             System.out.println(socket.getInetAddress());
             DataInputStream input = new DataInputStream(socket.getInputStream());
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+            Gson gson = new Gson();
             boolean isID = false;
             while (true) {
                 int requestCode = input.readInt();
@@ -70,10 +78,43 @@ public class Server {
                 if (requestCode == RequestCodes.DISCONNECT_WITHOUT_RESULT) {
                     break;
                 }
+
+                output.writeUTF(gson.toJson(createTestGameInfo()));
             }
         }
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static GameInfo createTestGameInfo() {
+        GameInfo gameInfo = new GameInfo();
+
+        gameInfo.responseCode = 200;
+
+        gameInfo.isPlaying = true;
+
+        gameInfo.map = new int[2][2];
+        gameInfo.map[0][0] = 1;
+        gameInfo.map[0][1] = 2;
+        gameInfo.map[1][0] = 3;
+        gameInfo.map[1][1] = 4;
+
+        gameInfo.pacman = new Pacman();
+        gameInfo.pacman.x = 10;
+        gameInfo.pacman.y = 15;
+        gameInfo.pacman.direction = 1;
+        gameInfo.pacman.score = 255;
+
+        gameInfo.gameRoomsList = null;
+
+        gameInfo.ghosts = new ArrayList<>();
+        Ghost ghost = new Ghost();
+        ghost.x = 50;
+        ghost.y = 60;
+        ghost.direction = 3;
+        gameInfo.ghosts.add(ghost);
+
+        return gameInfo;
     }
 }

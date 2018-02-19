@@ -1,5 +1,7 @@
 package pacman.api;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -10,17 +12,16 @@ public class PacManAPI implements IPacManAPI {
     private DataInputStream input;
     private DataOutputStream output;
 
+    private Gson gson = new Gson();
+
     public enum GameType {SINGLE, VERSUS, VIEW};
 
     private GameInfo sendRequestCode(int requestCode) {
         GameInfo gameInfo;
         try {
             output.writeInt(requestCode);
-            //String responseString = input.readLine();
-            // Обработка responseString
-            // Сборка объекта GameInfo с помощью GoogleSON (JSON)
-            gameInfo = new GameInfo();
-            gameInfo.responseCode = 200;
+            String responseString = input.readUTF();
+            gameInfo = gson.fromJson(responseString, GameInfo.class);
         } catch (IOException ignored) {
             gameInfo = new GameInfo();
             gameInfo.responseCode = 404;
@@ -69,9 +70,10 @@ public class PacManAPI implements IPacManAPI {
                 return null;
             }
         } else {
-            sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
             try {
+                GameInfo gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
                 socket.close();
+                return gameInfo;
             } catch (IOException ignored) {}
             return null;
         }

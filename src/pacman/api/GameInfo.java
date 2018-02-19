@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class GameInfo {
 
-    int responseCode;
+    public int responseCode;
 
     public boolean isPlaying;
 
