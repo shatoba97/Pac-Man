@@ -2,13 +2,17 @@ package pacman.api;
 
 public interface IPacManAPI {
 
-    boolean connection(String IP, int port, int gameType);
+    boolean connection(String IP, int port, PacManAPI.GameType gameType);
+
+    boolean chooseGameRoom(int id);
+
+    boolean toUp();
+    boolean toDown();
+    boolean toLeft();
+    boolean toRight();
+
     GameInfo disconnect(boolean isWait);
-
-    GameInfo sendRequest(int requestCode);
-
-    void toUp();
-    void toDown();
-    void toLeft();
-    void toRight();
+    GameInfo getInfoAboutLeftPlayer();
+    GameInfo getInfoAboutRightPlayer();
+    GameInfo getPlayingGameRoomList();
 }
