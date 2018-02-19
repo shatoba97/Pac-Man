@@ -1,5 +1,6 @@
-public class PacManAPI implements IPacManAPI {
+package pacman.api;
 
+public class PacManAPI implements IPacManAPI {
     @Override
     public boolean connection(String IP, int port, int gameType) {
         return false;
@@ -34,5 +35,4 @@ public class PacManAPI implements IPacManAPI {
     public void toRight() {
 
     }
-
 }

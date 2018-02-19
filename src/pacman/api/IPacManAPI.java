@@ -1,3 +1,5 @@
+package pacman.api;
+
 public interface IPacManAPI {
 
     boolean connection(String IP, int port, int gameType);
