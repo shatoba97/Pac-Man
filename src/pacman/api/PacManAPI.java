@@ -1,24 +1,22 @@
 package pacman.api;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
 public class PacManAPI implements IPacManAPI {
 
-    private OutputStreamWriter output;
-    private BufferedReader input;
+    private Socket socket;
+    private DataInputStream input;
+    private DataOutputStream output;
 
     public enum GameType {SINGLE, VERSUS, VIEW};
 
     private GameInfo sendRequestCode(int requestCode) {
         GameInfo gameInfo;
         try {
-            output.write(requestCode);
-            String responseString = input.readLine();
+            output.writeInt(requestCode);
+            //String responseString = input.readLine();
             // Обработка responseString
             // Сборка объекта GameInfo с помощью GoogleSON (JSON)
             gameInfo = new GameInfo();
@@ -42,9 +40,9 @@ public class PacManAPI implements IPacManAPI {
     public boolean connection(String IP, int port, GameType gameType) {
         try {
             InetAddress ip = InetAddress.getByName(IP);
-            Socket socket = new Socket(ip, port);
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new OutputStreamWriter(socket.getOutputStream());
+            socket = new Socket(ip, port);
+            input = new DataInputStream(socket.getInputStream());
+            output = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             return false;
         }
@@ -63,9 +61,18 @@ public class PacManAPI implements IPacManAPI {
     @Override
     public GameInfo disconnect(boolean isWait) {
         if (isWait) {
-            return sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
+            try {
+                GameInfo gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
+                socket.close();
+                return gameInfo;
+            } catch (IOException e) {
+                return null;
+            }
         } else {
             sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
+            try {
+                socket.close();
+            } catch (IOException ignored) {}
             return null;
         }
     }
