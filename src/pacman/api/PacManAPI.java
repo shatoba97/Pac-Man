@@ -61,20 +61,16 @@ public class PacManAPI implements IPacManAPI {
 
     @Override
     public GameInfo disconnect(boolean isWait) {
+        GameInfo gameInfo;
         if (isWait) {
-            try {
-                GameInfo gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
-                socket.close();
-                return gameInfo;
-            } catch (IOException e) {
-                return null;
-            }
+            gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
         } else {
-            try {
-                GameInfo gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
-                socket.close();
-                return gameInfo;
-            } catch (IOException ignored) {}
+            gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
+        }
+        try {
+            socket.close();
+            return gameInfo;
+        } catch (IOException e) {
             return null;
         }
     }

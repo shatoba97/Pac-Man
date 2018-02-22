@@ -1,89 +1,22 @@
 package pacman.server;
 
 import com.google.gson.Gson;
-import pacman.api.GameInfo;
-import pacman.api.Ghost;
-import pacman.api.Pacman;
-import pacman.api.RequestCodes;
+import pacman.api.*;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class Server {
     public static void main(String[] args) throws Exception {
-        try {
-            ServerSocket serverSocket = new ServerSocket(7070);
-            System.out.println("Ожидание подключения клиентов");
+        ServerSocket serverSocket = new ServerSocket(7070);
+        while (true) {
             Socket socket = serverSocket.accept();
-            System.out.println(socket.getInetAddress());
-            DataInputStream input = new DataInputStream(socket.getInputStream());
-            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-            Gson gson = new Gson();
-            boolean isID = false;
-            while (true) {
-                int requestCode = input.readInt();
-                String requestString = null;
-                if (!isID) {
-                    switch (requestCode) {
-                        case RequestCodes.CMD_UP:
-                            requestString = "CMD: to Up";
-                            break;
-                        case RequestCodes.CMD_DOWN:
-                            requestString = "CMD: to Down";
-                            break;
-                        case RequestCodes.CMD_LEFT:
-                            requestString = "CMD: to Left";
-                            break;
-                        case RequestCodes.CMD_RIGHT:
-                            requestString = "CMD: to Right";
-                            break;
-                        case RequestCodes.SINGLE_GAME:
-                            requestString = "TypeGame: Single game";
-                            break;
-                        case RequestCodes.VERSUS_GAME:
-                            requestString = "TypeGame: Versus game";
-                            break;
-                        case RequestCodes.VIEW_GAME:
-                            requestString = "TypeGame: View game";
-                            break;
-                        case RequestCodes.DISCONNECT_WITH_RESULT:
-                            requestString = "Disconnect with result";
-                            break;
-                        case RequestCodes.DISCONNECT_WITHOUT_RESULT:
-                            requestString = "Disconnect without result";
-                            break;
-                        case RequestCodes.REQUEST_INFO_FOR_LEFT_PLAYER:
-                            requestString = "Request info for the left player";
-                            break;
-                        case RequestCodes.REQUEST_INFO_FOR_RIGHT_PLAYER:
-                            requestString = "Request info for the right player";
-                            break;
-                        case RequestCodes.REQUEST_LIST_OF_GAME_ROOM:
-                            requestString = "Request list of game room";
-                            break;
-                        case RequestCodes.NOTIFY_SERVER_ABOUT_CHOOSE_GAME_ROOM_ID:
-                            isID = true;
-                            requestString = "Notify server about choose game room id";
-                            break;
-                    }
-                } else {
-                    requestString = "Room ID: " + requestCode;
-                    isID = false;
-                }
-                System.out.println("Request: " + requestString);
-                if (requestCode == RequestCodes.DISCONNECT_WITHOUT_RESULT) {
-                    break;
-                }
-
-                output.writeUTF(gson.toJson(createTestGameInfo()));
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+            Player newPlayer = new Player(socket);
+            // Передача игрока игровому диспетчеру...
+            // Распределение по очередям в зависимости от типа игры...
+            // Создание комнаты и ответ игроку
         }
     }
 
@@ -116,5 +49,66 @@ public class Server {
         gameInfo.ghosts.add(ghost);
 
         return gameInfo;
+    }
+}
+
+class Player extends Thread {
+
+    public PacManAPI.GameType gameType;
+    public DataInputStream input;
+
+    private DataOutputStream output;
+    private Gson gson;
+
+    private GameRoom gameRoom;
+
+    public Player(Socket socket) {
+        try {
+            gson = new Gson();
+            input = new DataInputStream(socket.getInputStream());
+            output = new DataOutputStream(socket.getOutputStream());
+            int type = input.readInt();
+            switch (type) {
+                case RequestCodes.SINGLE_GAME: gameType = PacManAPI.GameType.SINGLE; break;
+                case RequestCodes.VERSUS_GAME: gameType = PacManAPI.GameType.VERSUS; break;
+                case RequestCodes.VIEW_GAME: gameType = PacManAPI.GameType.VIEW; break;
+            }
+        } catch (IOException ignore) {}
+    }
+
+    public void sendResponse(GameInfo gameInfo) {
+        try {
+            output.writeUTF(gson.toJson(gameInfo));
+        } catch (IOException ignored) {};
+    }
+
+    public void setGameRoom(GameRoom gameRoom) {
+        this.gameRoom = gameRoom;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                // обработка запросов игрока и отправка ответов
+                int inputRequest = input.readInt();
+                switch (inputRequest) {
+                    case 0: sendResponse(gameRoom.getGameInfoForLeftPlayer()); break;
+                    case 1: sendResponse(gameRoom.getGameInfoForRightPlayer()); break;
+                    case 2: break;
+                    default:
+                }
+            } catch (IOException ignored) {}
+        }
+    }
+}
+
+class GameRoom {
+    public GameInfo getGameInfoForLeftPlayer() {
+        return null;
+    }
+
+    public GameInfo getGameInfoForRightPlayer() {
+        return null;
     }
 }
