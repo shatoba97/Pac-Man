@@ -13,5 +13,7 @@ public class GameInfo {
     public Pacman pacman;
 
     public ArrayList<GameRoom> gameRoomsList;
+
+    public GameResult gameResult;
 }
 
