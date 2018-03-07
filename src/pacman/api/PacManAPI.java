@@ -17,16 +17,18 @@ public class PacManAPI implements IPacManAPI {
     public enum GameType {SINGLE, VERSUS, VIEW};
 
     private GameInfo sendRequestCode(int requestCode) {
-        GameInfo gameInfo;
-        try {
-            output.writeInt(requestCode);
-            String responseString = input.readUTF();
-            gameInfo = gson.fromJson(responseString, GameInfo.class);
-        } catch (IOException ignored) {
-            gameInfo = new GameInfo();
-            gameInfo.responseCode = 404;
+        synchronized (this) {
+            GameInfo gameInfo;
+            try {
+                output.writeInt(requestCode);
+                String responseString = input.readUTF();
+                gameInfo = gson.fromJson(responseString, GameInfo.class);
+            } catch (IOException ignored) {
+                gameInfo = new GameInfo();
+                gameInfo.responseCode = 404;
+            }
+            return gameInfo;
         }
-        return gameInfo;
     }
 
     private GameInfo checkResponseCode(GameInfo gameInfo) {

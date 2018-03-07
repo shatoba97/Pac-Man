@@ -17,14 +17,14 @@ public class Server {
             Player player = new Player(socket);
             switch (player.getRequest()) {
                 case RequestCodes.SINGLE_GAME: {
-                    new GameRoom(player);
+                    new GameRoom(player).start();
                     break;
                 }
                 case RequestCodes.VERSUS_GAME: {
                     playersQueue.add(player);
                     if (playersQueue.size() > 1) {
                         new GameRoom(playersQueue.remove(0),
-                                playersQueue.remove(0));
+                                playersQueue.remove(0)).start();
                     }
                     break;
                 }

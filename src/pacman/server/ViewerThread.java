@@ -16,6 +16,7 @@ public class ViewerThread extends Thread {
         player.sendResponse(responseBuilder.getOKResponse());
         while(true) {
             int request = player.getRequest();
+            // todo
             // Обработка запроса зрителя
         }
     }

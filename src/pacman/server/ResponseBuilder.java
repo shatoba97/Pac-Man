@@ -12,27 +12,33 @@ public class ResponseBuilder {
     // =====================================================================
     private static ResponseBuilder sResponseBuilder = new ResponseBuilder();
 
-    private ResponseBuilder() {
-        ok = new GameInfo();
-        ok.responseCode = 200;
-        error = new GameInfo();
-        error.responseCode = 404;
-    }
+    private ResponseBuilder() {}
 
     public static ResponseBuilder getInstance() {
         return sResponseBuilder;
     }
     // =====================================================================
 
-    private GameInfo ok;
-    private GameInfo error;
 
     public GameInfo getOKResponse() {
-        return ok;
+        GameInfo gameInfo = new GameInfo();
+        gameInfo.responseCode = 200;
+        return gameInfo;
     }
 
     public GameInfo getERRORResponse() {
-        return error;
+        GameInfo gameInfo = new GameInfo();
+        gameInfo.responseCode = 404;
+        return gameInfo;
+    }
+
+    public GameInfo createResponse(Game game) {
+        GameInfo gameInfo = new GameInfo();
+        gameInfo.responseCode = 200;
+        gameInfo.isPlaying = game.isPlaying;
+        gameInfo.map = game.map;
+        gameInfo.pacman = game.pacman;
+        return gameInfo;
     }
 
     public GameInfo getTestGameInfo() {

@@ -2,27 +2,57 @@ package pacman.server;
 
 public class GameRoom extends Thread {
 
-    private Game game;
+    public Game firstGame;
+    public Game secondGame;
 
     GameRoom(Player player) {
-        game = GameFactory.createGame();
+        firstGame = GameFactory.createGame();
 
-        new PlayerThread(player, true).start();
-        this.start();
+        new PlayerThread(player, true, this).start();
     }
 
     GameRoom(Player firstPlayer, Player secondPlayer) {
-        game = GameFactory.createGame();
+        firstGame = GameFactory.createGame();
+        secondGame = GameFactory.createGame();
 
-        new PlayerThread(firstPlayer, true).start();
-        new PlayerThread(secondPlayer, false).start();
-        this.start();
+        new PlayerThread(firstPlayer, true, this).start();
+        new PlayerThread(secondPlayer, false, this).start();
     }
 
     @Override
     public void run() {
         while (true) {
-            // Процесс игры
+            try {
+                stepGame(firstGame);
+                if (secondGame != null) {
+                    stepGame(secondGame);
+                }
+                sleep(100);
+            } catch (InterruptedException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+    }
+
+    private void stepGame(Game game) {
+        switch (game.pacman.direction) {
+            case 0: {
+                game.pacman.x -= 1;
+                break;
+            }
+            case 1: {
+                game.pacman.y -= 1;
+                break;
+            }
+            case 2: {
+                game.pacman.x += 1;
+                break;
+            }
+            case 3: {
+                game.pacman.y += 1;
+                break;
+            }
+
         }
     }
 }
