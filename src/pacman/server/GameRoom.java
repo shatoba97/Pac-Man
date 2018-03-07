@@ -2,14 +2,20 @@ package pacman.server;
 
 public class GameRoom extends Thread {
 
+    private Game game;
+
     GameRoom(Player player) {
-        new Thread(new PlayerThread(player, true)).start();
+        game = GameFactory.createGame();
+
+        new PlayerThread(player, true).start();
         this.start();
     }
 
     GameRoom(Player firstPlayer, Player secondPlayer) {
-        new Thread(new PlayerThread(firstPlayer, true)).start();
-        new Thread(new PlayerThread(secondPlayer, false)).start();
+        game = GameFactory.createGame();
+
+        new PlayerThread(firstPlayer, true).start();
+        new PlayerThread(secondPlayer, false).start();
         this.start();
     }
 

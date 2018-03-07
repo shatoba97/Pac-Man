@@ -2,7 +2,7 @@ package pacman.server;
 
 import pacman.api.RequestCodes;
 
-public class PlayerThread implements Runnable {
+public class PlayerThread extends Thread {
 
     private Player player;
     private ResponseBuilder responseBuilder;

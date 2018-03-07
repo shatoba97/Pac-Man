@@ -29,7 +29,7 @@ public class Server {
                     break;
                 }
                 case RequestCodes.VIEW_GAME: {
-                    // todo
+                    new ViewerThread(player).start();
                     break;
                 }
             }
