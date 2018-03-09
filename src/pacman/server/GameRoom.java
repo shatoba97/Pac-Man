@@ -7,14 +7,12 @@ public class GameRoom extends Thread {
 
     GameRoom(Player player) {
         firstGame = GameFactory.createGame();
-
         new PlayerThread(player, true, this).start();
     }
 
     GameRoom(Player firstPlayer, Player secondPlayer) {
         firstGame = GameFactory.createGame();
         secondGame = GameFactory.createGame();
-
         new PlayerThread(firstPlayer, true, this).start();
         new PlayerThread(secondPlayer, false, this).start();
     }
@@ -27,7 +25,7 @@ public class GameRoom extends Thread {
                 if (secondGame != null) {
                     stepGame(secondGame);
                 }
-                sleep(100);
+                sleep(25);
             } catch (InterruptedException ignored) {
                 ignored.printStackTrace();
             }
@@ -52,7 +50,6 @@ public class GameRoom extends Thread {
                 game.pacman.y += 1;
                 break;
             }
-
         }
     }
 }

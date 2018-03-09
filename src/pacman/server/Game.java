@@ -2,7 +2,8 @@ package pacman.server;
 
 import pacman.api.Pacman;
 
-import java.util.Random;
+import java.io.*;
+import java.util.Scanner;
 
 class Game {
     boolean isPlaying;
@@ -23,14 +24,19 @@ class Game {
 
     private int[][] loadMapFromFile(String path) {
         // todo
-        int height = 20;
-        int weight = 20;
-        Random random = new Random();
-        map = new int[height][weight];
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < weight; ++j) {
-                map[i][j] = random.nextInt() % 3;
+        int height = 31;
+        int weight = 28;
+        map = new int[weight][height];
+        try {
+            File file = new File("Map.txt");
+            Scanner scanner = new Scanner(file);
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < weight; ++j) {
+                    map[j][i] = scanner.nextInt();
+                }
             }
+        } catch (FileNotFoundException ignored) {
+            ignored.printStackTrace();
         }
         return map;
     }
