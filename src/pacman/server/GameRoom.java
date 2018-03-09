@@ -35,19 +35,27 @@ public class GameRoom extends Thread {
     private void stepGame(Game game) {
         switch (game.pacman.direction) {
             case 0: {
-                game.pacman.x -= 1;
+                if (game.map[(game.pacman.x) / 20][(game.pacman.y + 8) / 20] != 2) {
+                    game.pacman.x -= 1;
+                }
                 break;
             }
             case 1: {
-                game.pacman.y -= 1;
+                if (game.map[(game.pacman.x + 8) / 20][(game.pacman.y) / 20] != 2) {
+                    game.pacman.y -= 1;
+                }
                 break;
             }
             case 2: {
-                game.pacman.x += 1;
+                if (game.map[(game.pacman.x + 16) / 20][(game.pacman.y + 8) / 20] != 2) {
+                    game.pacman.x += 1;
+                }
                 break;
             }
             case 3: {
-                game.pacman.y += 1;
+                if (game.map[(game.pacman.x + 8) / 20][(game.pacman.y + 16) / 20] != 2) {
+                    game.pacman.y += 1;
+                }
                 break;
             }
         }
