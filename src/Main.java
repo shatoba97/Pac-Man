@@ -22,7 +22,8 @@ class Window extends JFrame {
 
     Window(IPacManAPI api) {
         setTitle("Testing!!!");
-        setSize(1000, 700);
+        setUndecorated(true);
+        setSize(560, 620);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -70,7 +71,7 @@ class MainPanel extends JPanel {
     private GameInfo gameInfo;
 
     MainPanel() {
-        setSize(1000, 700);
+        setSize(620, 570);
     }
 
     void repaint(GameInfo gameInfo) {
