@@ -14,9 +14,9 @@ class Game {
         map = loadMapFromFile("SomePath");
 
         pacman = new Pacman();
-        pacman.x = 27;
-        pacman.y = 120;
-        pacman.direction = 3;
+        pacman.x = 280;
+        pacman.y = 460;
+        pacman.direction = 4;
         pacman.score = -100;
 
         isPlaying = true;

@@ -25,7 +25,7 @@ public class GameRoom extends Thread {
                 if (secondGame != null) {
                     stepGame(secondGame);
                 }
-                sleep(25);
+                sleep(10);
             } catch (InterruptedException ignored) {
                 ignored.printStackTrace();
             }

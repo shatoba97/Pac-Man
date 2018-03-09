@@ -58,7 +58,7 @@ class Window extends JFrame {
                     GameInfo gameInfo = api.getInfoAboutLeftPlayer();
                     mainPanel.repaint(gameInfo);
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(5);
                     } catch (InterruptedException ignored) {}
                 }
             }
@@ -132,7 +132,7 @@ class Map {
                     Rect.setSize(i * 20, j * 20, 20, 20, Color.WHITE);
                     Rect.draw(g);
                     g.setColor(Color.BLUE);
-                    g.fillOval(i * 20 + 5, j * 20 + 5, 10, 10);
+                    g.fillOval(i * 20 + 7, j * 20 + 7, 6, 6);
                 } else {
                     Rect.setSize(i * 20, j * 20, 20, 20, Color.BLACK);
                     Rect.draw(g);
