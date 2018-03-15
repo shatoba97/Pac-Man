@@ -1,6 +1,7 @@
 import pacman.api.GameInfo;
 import pacman.api.IPacManAPI;
 import pacman.api.PacManAPI;
+import pacman.api.ViewProperties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         IPacManAPI api = new PacManAPI();
         if (api.connection("127.0.0.1", 7070, PacManAPI.GameType.SINGLE)) {
-            new Window(api);
+            ViewProperties viewProperties = api.getViewProperties();
+            new Window(api, viewProperties);
         }
     }
 }
@@ -20,10 +22,10 @@ class Window extends JFrame {
 
     private MainPanel mainPanel;
 
-    Window(IPacManAPI api) {
+    Window(IPacManAPI api, ViewProperties viewProperties) {
         setTitle("Testing!!!");
         setUndecorated(true);
-        setSize(560, 620);
+        setSize(viewProperties.weightScreen, viewProperties.heightScreen);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -70,10 +72,6 @@ class MainPanel extends JPanel {
 
     private GameInfo gameInfo;
 
-    MainPanel() {
-        setSize(620, 570);
-    }
-
     void repaint(GameInfo gameInfo) {
         this.gameInfo = gameInfo;
         repaint();
@@ -86,8 +84,8 @@ class MainPanel extends JPanel {
             Map.setMap(gameInfo.map);
             Map.draw(graphics2D);
             graphics2D.setColor(Color.YELLOW);
-            graphics2D.fillOval(gameInfo.pacman.x + 2, gameInfo.pacman.y + 2,
-                    16, 16);
+            graphics2D.fillOval(gameInfo.pacman.x, gameInfo.pacman.y,
+                    20, 20);
         }
     }
 }

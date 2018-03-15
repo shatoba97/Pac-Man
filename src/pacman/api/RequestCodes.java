@@ -14,4 +14,6 @@ public abstract class RequestCodes {
     public static final int CMD_DOWN = 10;
     public static final int CMD_RIGHT = 11;
     public static final int CMD_LEFT = 12;
+    public static final int REQUEST_VIEW_PROPERTIES = 13;
+    public static final int READY = 14;
 }

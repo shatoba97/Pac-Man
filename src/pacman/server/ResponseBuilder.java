@@ -3,6 +3,7 @@ package pacman.server;
 import pacman.api.GameInfo;
 import pacman.api.Ghost;
 import pacman.api.Pacman;
+import pacman.api.ViewProperties;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class ResponseBuilder {
         return gameInfo;
     }
 
-    public GameInfo createResponse(Game game) {
+    public GameInfo createGameInfoResponse(Game game) {
         GameInfo gameInfo = new GameInfo();
         gameInfo.responseCode = 200;
         gameInfo.isPlaying = game.isPlaying;

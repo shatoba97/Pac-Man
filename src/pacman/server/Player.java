@@ -2,6 +2,7 @@ package pacman.server;
 
 import com.google.gson.Gson;
 import pacman.api.GameInfo;
+import pacman.api.ViewProperties;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -27,6 +28,13 @@ class Player {
 
     void sendResponse(GameInfo gameInfo) {
         String responseString = gson.toJson(gameInfo);
+        try {
+            output.writeUTF(responseString);
+        } catch (IOException ignored) {}
+    }
+
+    void sendResponse(ViewProperties viewProperties) {
+        String responseString = gson.toJson(viewProperties);
         try {
             output.writeUTF(responseString);
         } catch (IOException ignored) {}

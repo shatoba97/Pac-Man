@@ -123,4 +123,17 @@ public class PacManAPI implements IPacManAPI {
     public boolean toRight() {
         return sendRequestCode(RequestCodes.CMD_RIGHT).responseCode == 200;
     }
+
+    @Override
+    public ViewProperties getViewProperties() {
+        ViewProperties viewProperties;
+        try {
+            output.writeInt(RequestCodes.REQUEST_VIEW_PROPERTIES);
+            String responseString = input.readUTF();
+            viewProperties = gson.fromJson(responseString, ViewProperties.class);
+        } catch (IOException ignored) {
+            return null;
+        }
+        return viewProperties;
+    }
 }

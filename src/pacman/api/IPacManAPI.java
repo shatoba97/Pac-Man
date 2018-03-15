@@ -15,4 +15,6 @@ public interface IPacManAPI {
     GameInfo getInfoAboutLeftPlayer();
     GameInfo getInfoAboutRightPlayer();
     GameInfo getPlayingGameRoomList();
+
+    ViewProperties getViewProperties();
 }
