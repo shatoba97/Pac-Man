@@ -43,7 +43,11 @@ public class GameRoom extends Thread {
             game.pacman.direction = game.pacman.nextDirection;
         }
 
-        game.map[game.pacman.x / 20][game.pacman.y / 20] = 0;
+
+        if (game.map[game.pacman.x / 20][game.pacman.y / 20] == 1) {
+            game.map[game.pacman.x / 20][game.pacman.y / 20] = 0;
+            game.pacman.score += 10;
+        }
 
         switch (game.pacman.direction) {
             case 0: {
