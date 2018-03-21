@@ -8,31 +8,43 @@ import java.awt.*;
 
 class PacManViewPanel extends JPanel {
 
-    private GameInfo gameInfo;
+    private GameInfo leftGameInfo;
+    private GameInfo rightGameInfo;
 
     private static int height = 20;
     private static int weight = 20;
+    private static int weightScreen = 300;
 
     void setViewProperties(ViewProperties viewProperties) {
         Map.setViewProperties(viewProperties);
         height = viewProperties.heightRect;
         weight = viewProperties.weightRect;
+        weightScreen = viewProperties.weightScreen;
     }
 
-    void repaint(GameInfo gameInfo) {
-        this.gameInfo = gameInfo;
+    void repaint(GameInfo leftGameInfo, GameInfo rightGameInfo) {
+        this.leftGameInfo = leftGameInfo;
+        this.rightGameInfo = rightGameInfo;
         repaint();
     }
 
     @Override
     public void paint(Graphics g) {
         Graphics2D graphics2D = (Graphics2D) g;
-        if (gameInfo != null) {
-            Map.setMap(gameInfo.map);
-            Map.draw(graphics2D);
-            graphics2D.setColor(Color.YELLOW);
-            graphics2D.fillOval(gameInfo.pacman.x, gameInfo.pacman.y,
-                                                        weight, height);
+        if (leftGameInfo != null) {
+            draw(leftGameInfo, 0, graphics2D);
         }
+
+        if (rightGameInfo != null) {
+            draw(rightGameInfo, weightScreen + 30, graphics2D);
+        }
+    }
+
+    private void draw(GameInfo gameInfo, int shift, Graphics2D graphics2D) {
+        Map.setMap(gameInfo.map, shift);
+        Map.draw(graphics2D);
+        graphics2D.setColor(Color.YELLOW);
+        graphics2D.fillOval(gameInfo.pacman.x + shift, gameInfo.pacman.y,
+                weight, height);
     }
 }

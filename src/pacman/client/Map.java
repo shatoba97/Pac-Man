@@ -6,7 +6,8 @@ import java.awt.*;
 
  class Map {
 
-    private static int[][] smap;
+    private static int[][] sMap;
+    private static int sShift;
     private static int height = 10;
     private static int weight = 10;
 
@@ -15,27 +16,28 @@ import java.awt.*;
         weight = viewProperties.weightRect;
     }
 
-    public static void setMap(int[][] map) {
-        smap = map;
+    public static void setMap(int[][] map, int shift) {
+        sMap = map;
+        sShift = shift;
     }
 
     public static void draw(Graphics2D g) {
-        for (int i = 0; i < smap.length; ++i) {
-            for (int j = 0; j < smap[i].length; ++j) {
-                if (smap[i][j] == 0) {
-                    Rect.setSize(i * weight, j * height,
+        for (int i = 0; i < sMap.length; ++i) {
+            for (int j = 0; j < sMap[i].length; ++j) {
+                if (sMap[i][j] == 0) {
+                    Rect.setSize(i * weight + sShift, j * height,
                             weight, height, Color.BLACK);
                     Rect.draw(g);
-                } else if (smap[i][j] == 1) {
-                    Rect.setSize(i * weight, j * height,
+                } else if (sMap[i][j] == 1) {
+                    Rect.setSize(i * weight + sShift, j * height,
                             weight, height, Color.BLACK);
                     Rect.draw(g);
                     g.setColor(Color.ORANGE);
-                    g.fillOval(i * weight + (weight - (weight / 3)) / 2,
+                    g.fillOval(i * weight + (weight - (weight / 3)) / 2 + sShift,
                             j * height + (height - (height / 3)) / 2,
                             weight / 3, height / 3);
                 } else {
-                    Rect.setSize(i * weight, j * height,
+                    Rect.setSize(i * weight + sShift, j * height,
                             weight, height, new Color(10, 19, 111));
                     Rect.draw(g);
                 }

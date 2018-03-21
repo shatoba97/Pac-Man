@@ -2,6 +2,7 @@ package pacman.client;
 
 import pacman.api.GameInfo;
 import pacman.api.IPacManAPI;
+import pacman.api.PacManAPI;
 import pacman.api.ViewProperties;
 
 import javax.swing.*;
@@ -10,23 +11,31 @@ import java.awt.event.KeyEvent;
 
 public class PeopleViewWindow extends JFrame {
 
-    private PacManViewPanel mainPanel;
+    private PacManViewPanel gamePanel;
 
-    public PeopleViewWindow(IPacManAPI api) {
+    public PeopleViewWindow(IPacManAPI api, PacManAPI.GameType gameType) {
 
         ViewProperties viewProperties = api.getViewProperties();
 
-        setTitle("Score: 0");
-        setSize(viewProperties.weightScreen, viewProperties.heightScreen + 25);
+        setTitle("Testing");
+
+        if (gameType == PacManAPI.GameType.SINGLE) {
+            setSize(viewProperties.weightScreen,
+                    viewProperties.heightScreen + 25);
+        } else {
+            setSize(viewProperties.weightScreen * 2 + 30,
+                    viewProperties.heightScreen + 25);
+        }
+
         setResizable(false);
         setLocationRelativeTo(null);
 
         setAutoRequestFocus(true);
 
-        mainPanel = new PacManViewPanel();
-        mainPanel.setViewProperties(viewProperties);
+        gamePanel = new PacManViewPanel();
+        gamePanel.setViewProperties(viewProperties);
 
-        setContentPane(mainPanel);
+        add(gamePanel);
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -49,10 +58,14 @@ public class PeopleViewWindow extends JFrame {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                GameInfo leftGameInfo;
+                GameInfo rightGameInfo = null;
                 while (true) {
-                    GameInfo gameInfo = api.getInfoAboutLeftPlayer();
-                    setTitle("Score: " + gameInfo.pacman.score);
-                    mainPanel.repaint(gameInfo);
+                    leftGameInfo = api.getInfoAboutLeftPlayer();
+                    if (gameType == PacManAPI.GameType.VERSUS) {
+                        rightGameInfo = api.getInfoAboutRightPlayer();
+                    }
+                    gamePanel.repaint(leftGameInfo, rightGameInfo);
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException ignored) {}
