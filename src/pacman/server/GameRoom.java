@@ -37,7 +37,7 @@ public class GameRoom extends Thread {
                         break;
                     }
                 }
-                sleep(10);
+                sleep(200 / firstGame.viewProperties.heightRect);
             } catch (InterruptedException ignored) {
                 ignored.printStackTrace();
             }
@@ -46,46 +46,66 @@ public class GameRoom extends Thread {
 
     private void stepGame(Game game) {
 
-        if (game.pacman.x % 20 == 0 && game.pacman.y % 20 == 0) {
-            game.pacman.direction = game.pacman.nextDirection;
+        int h = game.viewProperties.heightRect;
+        int w = game.viewProperties.weightRect;
+
+        if (game.pacman.x % w == 0 && game.pacman.y % h == 0) {
+            switch (game.pacman.nextDirection) {
+                case 0: {
+                    if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2){
+                        game.pacman.direction = game.pacman.nextDirection;
+                    }
+                    break;
+                }
+                case 1: {
+                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2){
+                        game.pacman.direction = game.pacman.nextDirection;
+                    }
+                    break;
+                }
+                case 2: {
+                    if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2){
+                        game.pacman.direction = game.pacman.nextDirection;
+                    }
+                    break;
+                }
+                case 3: {
+                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2){
+                        game.pacman.direction = game.pacman.nextDirection;
+                    }
+                    break;
+                }
+            }
         }
 
 
-        if (game.map[game.pacman.x / 20][game.pacman.y / 20] == 1) {
-            game.map[game.pacman.x / 20][game.pacman.y / 20] = 0;
+        if (game.map[game.pacman.x / w][game.pacman.y / h] == 1) {
+            game.map[game.pacman.x / w][game.pacman.y / h] = 0;
             game.pacman.score += 10;
         }
 
         switch (game.pacman.direction) {
             case 0: {
-                if (game.map[(game.pacman.x - 1) / 20][(game.pacman.y + 10) / 20] != 2) {
+                if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2) {
                     game.pacman.x -= 1;
-                } else {
-                    game.pacman.direction = 4;
                 }
                 break;
             }
             case 1: {
-                if (game.map[(game.pacman.x + 10) / 20][(game.pacman.y - 1) / 20] != 2) {
+                if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2) {
                     game.pacman.y -= 1;
-                } else {
-                    game.pacman.direction = 4;
                 }
                 break;
             }
             case 2: {
-                if (game.map[(game.pacman.x + 20) / 20][(game.pacman.y + 10) / 20] != 2) {
+                if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2) {
                     game.pacman.x += 1;
-                } else {
-                    game.pacman.direction = 4;
                 }
                 break;
             }
             case 3: {
-                if (game.map[(game.pacman.x + 10) / 20][(game.pacman.y + 20) / 20] != 2) {
+                if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2) {
                     game.pacman.y += 1;
-                } else {
-                    game.pacman.direction = 4;
                 }
                 break;
             }

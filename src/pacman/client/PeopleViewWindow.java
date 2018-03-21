@@ -8,11 +8,12 @@ import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class PeoplePlayerViewWindow extends JFrame {
+public class PeopleViewWindow extends JFrame {
 
     private PacManViewPanel mainPanel;
 
-    public PeoplePlayerViewWindow(IPacManAPI api) {
+    public PeopleViewWindow(IPacManAPI api) {
+
         ViewProperties viewProperties = api.getViewProperties();
 
         setTitle("Score: 0");

@@ -4,7 +4,7 @@ import pacman.api.ViewProperties;
 
 import java.awt.*;
 
-class Map {
+ class Map {
 
     private static int[][] smap;
     private static int height = 10;

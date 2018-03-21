@@ -126,14 +126,16 @@ public class PacManAPI implements IPacManAPI {
 
     @Override
     public ViewProperties getViewProperties() {
-        ViewProperties viewProperties;
-        try {
-            output.writeInt(RequestCodes.REQUEST_VIEW_PROPERTIES);
-            String responseString = input.readUTF();
-            viewProperties = gson.fromJson(responseString, ViewProperties.class);
-        } catch (IOException ignored) {
-            return null;
+        synchronized (this) {
+            ViewProperties viewProperties;
+            try {
+                output.writeInt(RequestCodes.REQUEST_VIEW_PROPERTIES);
+                String responseString = input.readUTF();
+                viewProperties = gson.fromJson(responseString, ViewProperties.class);
+            } catch (IOException ignored) {
+                return null;
+            }
+            return viewProperties;
         }
-        return viewProperties;
     }
 }
