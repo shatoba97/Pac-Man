@@ -29,6 +29,13 @@ public class GameRoom extends Thread {
                 stepGame(firstGame);
                 if (secondGame != null) {
                     stepGame(secondGame);
+                    if (!firstGame.isPlaying && !secondGame.isPlaying) {
+                        break;
+                    }
+                } else {
+                    if (!firstGame.isPlaying) {
+                        break;
+                    }
                 }
                 sleep(10);
             } catch (InterruptedException ignored) {

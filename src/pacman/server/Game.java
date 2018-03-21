@@ -21,9 +21,9 @@ class Game {
         pacman.nextDirection = 4;
         pacman.score = 0;
 
-        map = loadMapFromFile(path);
-
         isPlaying = true;
+
+        map = loadMapFromFile(path);
     }
 
     private int[][] loadMapFromFile(String path) {
@@ -48,7 +48,6 @@ class Game {
                 for (int j = 0; j < wMap; ++j) {
                     map[i][j] = scanner.nextInt();
                 }
-                System.out.println();
             }
 
         } catch (FileNotFoundException ignored) {

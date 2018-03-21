@@ -92,8 +92,27 @@ public class PlayerThread extends Thread {
                         gameRoom.secondPlayerIsReady = true;
                     }
                 }
+                case RequestCodes.DISCONNECT_WITHOUT_RESULT: {
+                    if (isFirstPlayer) {
+                        gameRoom.firstGame.isPlaying = false;
+                    } else {
+                        gameRoom.secondGame.isPlaying = false;
+                    }
+                    player.sendResponse(responseBuilder.getOKResponse());
+                    break;
+                }
                 default: {
                     player.sendResponse(responseBuilder.getERRORResponse());
+                    break;
+                }
+            }
+
+            if (isFirstPlayer) {
+                if (!gameRoom.firstGame.isPlaying) {
+                    break;
+                }
+            } else {
+                if (!gameRoom.secondGame.isPlaying) {
                     break;
                 }
             }
