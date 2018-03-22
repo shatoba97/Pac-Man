@@ -4,20 +4,14 @@ import pacman.api.GameInfo;
 import pacman.api.IPacManAPI;
 import pacman.api.ViewProperties;
 
-import java.util.Random;
+public class PacManRandomBot extends PacManBot {
 
-public class PacManBot2 extends Thread {
-
-    private IPacManAPI api;
-    private Random random = new Random();
-
-    public PacManBot2(IPacManAPI api) {
-        this.api = api;
+    public PacManRandomBot(IPacManAPI api) {
+        super(api);
     }
 
     @Override
     public void run() {
-        api.toUp();
         int direct;
         ViewProperties viewProperties = api.getViewProperties();
         while (true) {
@@ -32,59 +26,53 @@ public class PacManBot2 extends Thread {
                 switch (direct) {
                     case 0:
                         api.toLeft();
-                        System.out.println("Влево");
                         break;
                     case 1:
                         api.toUp();
-                        System.out.println("Вверх");
                         break;
                     case 2:
                         api.toRight();
-                        System.out.println("Вправо");
                         break;
                     case 3:
-                        System.out.println("Вниз");
                         api.toDown();
                         break;
                 }
 
                 try {
                     Thread.sleep(200);
-                } catch (InterruptedException e) {
-                }
+                } catch (InterruptedException ignored) {}
             }
 
             try {
                 Thread.sleep(50);
-            } catch (InterruptedException e) {
-            }
+            } catch (InterruptedException ignored) {}
         }
     }
 
-    private int randomDirect(int x, int y, int prevDirect, int[][] map) {
+    private int randomDirect(int x, int y, int currentDirection, int[][] map) {
         int direct = random.nextInt(4);
         while (true) {
             switch (direct) {
                 case 0: {
-                    if (map[x - 1][y] != 2 && prevDirect != 2) {
+                    if (map[x - 1][y] != 2 && currentDirection != 2) {
                         return direct;
                     }
                     break;
                 }
                 case 1: {
-                    if (map[x][y - 1] != 2 && prevDirect != 3) {
+                    if (map[x][y - 1] != 2 && currentDirection != 3) {
                         return direct;
                     }
                     break;
                 }
                 case 2: {
-                    if (map[x + 1][y] != 2 && prevDirect != 0) {
+                    if (map[x + 1][y] != 2 && currentDirection != 0) {
                         return direct;
                     }
                     break;
                 }
                 case 3: {
-                    if (map[x][y + 1] != 2 && prevDirect != 1) {
+                    if (map[x][y + 1] != 2 && currentDirection != 1) {
                         return direct;
                     }
                     break;
@@ -92,21 +80,5 @@ public class PacManBot2 extends Thread {
             }
             direct = (direct + 1) % 4;
         }
-    }
-
-    private boolean canChangeDirection(int x, int y, int direction, int[][] map) {
-        if (map[x - 1][y] != 2 && direction != 0 && direction != 2) {
-            return true;
-        }
-        if (map[x][y - 1] != 2 && direction != 1 && direction != 3) {
-            return true;
-        }
-        if (map[x + 1][y] != 2 && direction != 2 && direction != 0) {
-            return true;
-        }
-        if (map[x][y + 1] != 2 && direction != 3 && direction != 1) {
-            return true;
-        }
-        return false;
     }
 }

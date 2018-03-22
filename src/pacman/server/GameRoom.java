@@ -37,7 +37,7 @@ public class GameRoom extends Thread {
                         break;
                     }
                 }
-                sleep(200 / firstGame.viewProperties.heightRect);
+                sleep(500 / firstGame.viewProperties.heightRect);
             } catch (InterruptedException ignored) {
                 ignored.printStackTrace();
             }
@@ -50,6 +50,7 @@ public class GameRoom extends Thread {
         int w = game.viewProperties.weightRect;
 
         if (game.pacman.x % w == 0 && game.pacman.y % h == 0) {
+
             switch (game.pacman.nextDirection) {
                 case 0: {
                     if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2){
