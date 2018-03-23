@@ -1,5 +1,6 @@
 package pacman.server;
 
+import pacman.api.Ghost;
 import pacman.api.Pacman;
 import pacman.api.ViewProperties;
 
@@ -12,6 +13,7 @@ class Game {
     boolean isPlaying;
     int[][] map;
     Pacman pacman;
+    Ghost ghost;
 
     Game(String path) {
         viewProperties = new ViewProperties();
@@ -20,6 +22,11 @@ class Game {
         pacman.direction = 4;
         pacman.nextDirection = 4;
         pacman.score = 0;
+
+        ghost = new Ghost();
+        ghost.direction = 3;
+        ghost.x = 100;
+        ghost.y = 100;
 
         isPlaying = true;
 

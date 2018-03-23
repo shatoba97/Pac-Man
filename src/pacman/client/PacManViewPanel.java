@@ -46,5 +46,8 @@ class PacManViewPanel extends JPanel {
         graphics2D.setColor(Color.YELLOW);
         graphics2D.fillOval(gameInfo.pacman.x + shift, gameInfo.pacman.y,
                 weight, height);
+        graphics2D.setColor(Color.RED);
+        graphics2D.fillOval(gameInfo.ghosts.get(0).x + shift, gameInfo.ghosts.get(0).y,
+                weight, height);
     }
 }

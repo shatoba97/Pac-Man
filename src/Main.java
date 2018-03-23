@@ -8,8 +8,8 @@ import pacman.client.PeopleViewWindow;
 public class Main {
     public static void main(String[] args) throws Exception {
         //randomBot(PacManAPI.GameType.VERSUS);
-        searchBot(PacManAPI.GameType.SINGLE);
-        //people(PacManAPI.GameType.SINGLE);
+        //searchBot(PacManAPI.GameType.SINGLE);
+        people(PacManAPI.GameType.SINGLE);
     }
 
     private static void randomBot(PacManAPI.GameType gameType) {

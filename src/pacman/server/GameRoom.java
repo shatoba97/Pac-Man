@@ -50,29 +50,36 @@ public class GameRoom extends Thread {
         int w = game.viewProperties.weightRect;
 
         if (game.pacman.x % w == 0 && game.pacman.y % h == 0) {
-
             switch (game.pacman.nextDirection) {
                 case 0: {
-                    if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2){
+                    if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2
+                            && game.pacman.direction != 0 && game.pacman.direction != 2) {
                         game.pacman.direction = game.pacman.nextDirection;
+                        game.pacman.nextDirection = 4;
                     }
                     break;
                 }
                 case 1: {
-                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2){
+                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2
+                            && game.pacman.direction != 1 && game.pacman.direction != 3) {
                         game.pacman.direction = game.pacman.nextDirection;
+                        game.pacman.nextDirection = 4;
                     }
                     break;
                 }
                 case 2: {
-                    if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2){
+                    if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2
+                            && game.pacman.direction != 0 && game.pacman.direction != 2) {
                         game.pacman.direction = game.pacman.nextDirection;
+                        game.pacman.nextDirection = 4;
                     }
                     break;
                 }
                 case 3: {
-                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2){
+                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2
+                            && game.pacman.direction != 1 && game.pacman.direction != 3) {
                         game.pacman.direction = game.pacman.nextDirection;
+                        game.pacman.nextDirection = 4;
                     }
                     break;
                 }
@@ -111,5 +118,7 @@ public class GameRoom extends Thread {
                 break;
             }
         }
+
+        // Логика призраков
     }
 }

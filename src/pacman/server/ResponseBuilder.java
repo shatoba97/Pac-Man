@@ -39,6 +39,8 @@ public class ResponseBuilder {
         gameInfo.isPlaying = game.isPlaying;
         gameInfo.map = game.map;
         gameInfo.pacman = game.pacman;
+        gameInfo.ghosts = new ArrayList<>();
+        gameInfo.ghosts.add(game.ghost);
         return gameInfo;
     }
 }
