@@ -1,10 +1,12 @@
 package pacman.client;
 
 import pacman.api.GameInfo;
+import pacman.api.Ghost;
 import pacman.api.ViewProperties;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 class PacManViewPanel extends JPanel {
 
@@ -44,10 +46,18 @@ class PacManViewPanel extends JPanel {
         Map.setMap(gameInfo.map, shift);
         Map.draw(graphics2D);
         graphics2D.setColor(Color.YELLOW);
-        graphics2D.fillOval(gameInfo.pacman.x + shift, gameInfo.pacman.y,
+        graphics2D.fillOval(gameInfo.pacMan.x + shift, gameInfo.pacMan.y,
                 weight, height);
-        graphics2D.setColor(Color.RED);
-        graphics2D.fillOval(gameInfo.ghosts.get(0).x + shift, gameInfo.ghosts.get(0).y,
-                weight, height);
+        drawGhost(gameInfo.ghosts, shift, graphics2D);
+    }
+
+    private void drawGhost(ArrayList<Ghost> ghosts, int shift, Graphics2D graphics2D) {
+        if (ghosts != null) {
+            for (Ghost ghost : ghosts) {
+                graphics2D.setColor(Color.RED);
+                graphics2D.fillOval(ghost.x + shift, ghost.y,
+                        weight, height);
+            }
+        }
     }
 }

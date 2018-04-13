@@ -8,18 +8,22 @@ import pacman.api.ViewProperties;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PeopleViewWindow extends JFrame {
 
     private PacManViewPanel gamePanel;
+    Thread updateThread;
 
     public PeopleViewWindow(IPacManAPI api, PacManAPI.GameType gameType) {
 
-        ViewProperties viewProperties = api.getViewProperties();
+        ViewProperties viewProperties = api.getInfoAboutLeftPlayer().viewProperties;
 
         setTitle("Testing");
 
-        if (gameType == PacManAPI.GameType.SINGLE) {
+        if (gameType == PacManAPI.GameType.SINGLE_WITH_GHOST
+                || gameType == PacManAPI.GameType.SINGLE_WITHOUT_GHOST) {
             setSize(viewProperties.weightScreen,
                     viewProperties.heightScreen + 25);
         } else {
@@ -37,6 +41,18 @@ public class PeopleViewWindow extends JFrame {
 
         add(gamePanel);
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                GameInfo gameInfo = api.disconnect(true);
+                JOptionPane.showMessageDialog(PeopleViewWindow.this,
+                        "My: " + gameInfo.gameResult.myScore + " Enemy: " +
+                                gameInfo.gameResult.enemyScore, "Result", JOptionPane.INFORMATION_MESSAGE);
+                updateThread.interrupt();
+                System.exit(0);
+            }
+        });
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -48,22 +64,28 @@ public class PeopleViewWindow extends JFrame {
                     api.toUp();
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     api.toDown();
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    api.disconnect(false);
-                    System.exit(404);
                 }
             }
         });
 
-        new Thread(new Runnable() {
+        updateThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 GameInfo leftGameInfo;
                 GameInfo rightGameInfo = null;
                 while (true) {
                     leftGameInfo = api.getInfoAboutLeftPlayer();
-                    if (gameType == PacManAPI.GameType.VERSUS) {
+                    if (leftGameInfo == null) break;
+                    if (!leftGameInfo.isPlaying) {
+                        api.disconnect(false);
+                        System.exit(0);
+                    }
+
+                    setTitle("Score: " + leftGameInfo.pacMan.score + " Death: " + leftGameInfo.pacMan.deathCounter);
+                    if (gameType == PacManAPI.GameType.VERSUS_WITH_GHOST ||
+                            gameType == PacManAPI.GameType.VERSUS_WITHOUT_GHOST) {
                         rightGameInfo = api.getInfoAboutRightPlayer();
+                        if (rightGameInfo == null) break;
                     }
                     gamePanel.repaint(leftGameInfo, rightGameInfo);
                     try {
@@ -71,7 +93,8 @@ public class PeopleViewWindow extends JFrame {
                     } catch (InterruptedException ignored) {}
                 }
             }
-        }).start();
+        });
+        updateThread.start();
 
         setVisible(true);
     }
