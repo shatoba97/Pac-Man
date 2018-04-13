@@ -1,5 +1,6 @@
 package pacman.bot;
 
+import pacman.api.Direction;
 import pacman.api.GameInfo;
 import pacman.api.IPacManAPI;
 import pacman.api.ViewProperties;
@@ -12,73 +13,85 @@ public class PacManRandomBot extends PacManBot {
 
     @Override
     public void run() {
-        int direct;
-        ViewProperties viewProperties = api.getViewProperties();
+        Direction direct;
+        ViewProperties viewProperties = api.getInfoAboutLeftPlayer().viewProperties;
         while (true) {
             GameInfo gameInfo = api.getInfoAboutLeftPlayer();
-            int x = (gameInfo.pacman.x + viewProperties.weightRect / 2)
-                    / viewProperties.weightRect;
-            int y = (gameInfo.pacman.y + viewProperties.heightRect / 2)
-                    / viewProperties.heightRect;
+            if (gameInfo == null) {
+                break;
+            }
 
-            if (canChangeDirection(x, y, gameInfo.pacman.direction, gameInfo.map)) {
-                direct = randomDirect(x, y, gameInfo.pacman.direction, gameInfo.map);
-                switch (direct) {
-                    case 0:
-                        api.toLeft();
+            if (gameInfo.isPlaying) {
+
+                int x = (gameInfo.pacMan.x + viewProperties.weightRect / 2)
+                        / viewProperties.weightRect;
+                int y = (gameInfo.pacMan.y + viewProperties.heightRect / 2)
+                        / viewProperties.heightRect;
+
+                if (canChangeDirection(x, y, gameInfo.pacMan.direction, gameInfo.map)) {
+                    direct = randomDirect(x, y, gameInfo.pacMan.direction, gameInfo.map);
+
+                    this.turn(direct);
+
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
                         break;
-                    case 1:
-                        api.toUp();
-                        break;
-                    case 2:
-                        api.toRight();
-                        break;
-                    case 3:
-                        api.toDown();
-                        break;
+                    }
                 }
 
                 try {
-                    Thread.sleep(200);
-                } catch (InterruptedException ignored) {}
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            } else {
+                break;
             }
-
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ignored) {}
         }
     }
 
-    private int randomDirect(int x, int y, int currentDirection, int[][] map) {
-        int direct = random.nextInt(4);
+    private Direction randomDirect(int x, int y, Direction currentDirection, int[][] map) {
+        Direction direction = getRandomDirect();
         while (true) {
-            switch (direct) {
-                case 0: {
-                    if (map[x - 1][y] != 2 && currentDirection != 2) {
-                        return direct;
+            switch (direction) {
+                case LEFT: {
+                    if (map[x - 1][y] != 2 && currentDirection != Direction.RIGHT) {
+                        return direction;
                     }
                     break;
                 }
-                case 1: {
-                    if (map[x][y - 1] != 2 && currentDirection != 3) {
-                        return direct;
+                case UP: {
+                    if (map[x][y - 1] != 2 && currentDirection != Direction.DOWN) {
+                        return direction;
                     }
                     break;
                 }
-                case 2: {
-                    if (map[x + 1][y] != 2 && currentDirection != 0) {
-                        return direct;
+                case RIGHT: {
+                    if (map[x + 1][y] != 2 && currentDirection != Direction.LEFT) {
+                        return direction;
                     }
                     break;
                 }
-                case 3: {
-                    if (map[x][y + 1] != 2 && currentDirection != 1) {
-                        return direct;
+                case DOWN: {
+                    if (map[x][y + 1] != 2 && currentDirection != Direction.UP) {
+                        return direction;
                     }
                     break;
                 }
             }
-            direct = (direct + 1) % 4;
+            direction = getRandomDirect();
+        }
+    }
+
+    private Direction getRandomDirect() {
+        int direction = random.nextInt(4);
+        switch (direction) {
+            case 0: return Direction.LEFT;
+            case 1: return Direction.UP;
+            case 2: return Direction.RIGHT;
+            case 3: return Direction.DOWN;
+            default: return Direction.LEFT;
         }
     }
 }

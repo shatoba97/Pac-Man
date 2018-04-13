@@ -1,5 +1,6 @@
 package pacman.bot;
 
+import pacman.api.Direction;
 import pacman.api.IPacManAPI;
 
 import java.util.Random;
@@ -7,26 +8,47 @@ import java.util.Random;
 public class PacManBot extends Thread {
 
     protected IPacManAPI api;
-    protected Random random = new Random();
+    Random random = new Random();
 
-    protected PacManBot(IPacManAPI api) {
+    PacManBot(IPacManAPI api) {
         this.api = api;
     }
 
-    protected boolean canChangeDirection(int x, int y, int direction, int[][] map) {
+    boolean canChangeDirection(int x, int y, Direction direction, int[][] map) {
 
-        if (map[x - 1][y] != 2 && direction != 0 && direction != 2) {
+        if (map[x - 1][y] != 2 && direction != Direction.LEFT && direction != Direction.RIGHT) {
             return true;
         }
-        if (map[x][y - 1] != 2 && direction != 1 && direction != 3) {
+        if (map[x][y - 1] != 2 && direction != Direction.UP && direction != Direction.DOWN) {
             return true;
         }
-        if (map[x + 1][y] != 2 && direction != 2 && direction != 0) {
+        if (map[x + 1][y] != 2 && direction != Direction.RIGHT && direction != Direction.LEFT) {
             return true;
         }
-        if (map[x][y + 1] != 2 && direction != 3 && direction != 1) {
+        if (map[x][y + 1] != 2 && direction != Direction.DOWN && direction != Direction.UP) {
             return true;
         }
         return false;
+    }
+
+    void turn(Direction direction) {
+        switch (direction) {
+            case LEFT: {
+                api.toLeft();
+                break;
+            }
+            case UP: {
+                api.toUp();
+                break;
+            }
+            case RIGHT: {
+                api.toRight();
+                break;
+            }
+            case DOWN: {
+                api.toDown();
+                break;
+            }
+        }
     }
 }
