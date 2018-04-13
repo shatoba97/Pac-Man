@@ -33,7 +33,7 @@ public class Server {
                 case RequestCodes.SINGLE_GAME_WITHOUT_GHOST: {
                     new GameRoom(player, 0).start();
                     break;
-                }gt
+                }
                 case RequestCodes.VERSUS_GAME_WITHOUT_GHOST: {
                     playersQueueWithoutGhost.add(player);
                     if (playersQueueWithoutGhost.size() > 1) {
