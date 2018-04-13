@@ -1,7 +1,12 @@
 package pacman.api;
 
-public class Ghost {
-    public int x;
-    public int y;
-    public int direction;
+public class Ghost extends Entity {
+
+    public int startX;
+    public int startY;
+
+    public void spawn() {
+        x = startX;
+        y = startY;
+    }
 }

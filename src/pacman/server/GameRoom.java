@@ -49,37 +49,37 @@ public class GameRoom extends Thread {
         int h = game.viewProperties.heightRect;
         int w = game.viewProperties.weightRect;
 
-        if (game.pacman.x % w == 0 && game.pacman.y % h == 0) {
-            switch (game.pacman.nextDirection) {
+        if (game.pacMan.x % w == 0 && game.pacMan.y % h == 0) {
+            switch (game.pacMan.nextDirection) {
                 case 0: {
-                    if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2
-                            && game.pacman.direction != 0 && game.pacman.direction != 2) {
-                        game.pacman.direction = game.pacman.nextDirection;
-                        game.pacman.nextDirection = 4;
+                    if (game.map[(game.pacMan.x - 1) / w][(game.pacMan.y + h / 2) / h] != 2
+                            && game.pacMan.direction != 0 && game.pacMan.direction != 2) {
+                        game.pacMan.direction = game.pacMan.nextDirection;
+                        game.pacMan.nextDirection = 4;
                     }
                     break;
                 }
                 case 1: {
-                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2
-                            && game.pacman.direction != 1 && game.pacman.direction != 3) {
-                        game.pacman.direction = game.pacman.nextDirection;
-                        game.pacman.nextDirection = 4;
+                    if (game.map[(game.pacMan.x + w / 2) / w][(game.pacMan.y - 1) / h] != 2
+                            && game.pacMan.direction != 1 && game.pacMan.direction != 3) {
+                        game.pacMan.direction = game.pacMan.nextDirection;
+                        game.pacMan.nextDirection = 4;
                     }
                     break;
                 }
                 case 2: {
-                    if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2
-                            && game.pacman.direction != 0 && game.pacman.direction != 2) {
-                        game.pacman.direction = game.pacman.nextDirection;
-                        game.pacman.nextDirection = 4;
+                    if (game.map[(game.pacMan.x + w) / w][(game.pacMan.y + h / 2) / h] != 2
+                            && game.pacMan.direction != 0 && game.pacMan.direction != 2) {
+                        game.pacMan.direction = game.pacMan.nextDirection;
+                        game.pacMan.nextDirection = 4;
                     }
                     break;
                 }
                 case 3: {
-                    if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2
-                            && game.pacman.direction != 1 && game.pacman.direction != 3) {
-                        game.pacman.direction = game.pacman.nextDirection;
-                        game.pacman.nextDirection = 4;
+                    if (game.map[(game.pacMan.x + w / 2) / w][(game.pacMan.y + h) / h] != 2
+                            && game.pacMan.direction != 1 && game.pacMan.direction != 3) {
+                        game.pacMan.direction = game.pacMan.nextDirection;
+                        game.pacMan.nextDirection = 4;
                     }
                     break;
                 }
@@ -87,33 +87,33 @@ public class GameRoom extends Thread {
         }
 
 
-        if (game.map[game.pacman.x / w][game.pacman.y / h] == 1) {
-            game.map[game.pacman.x / w][game.pacman.y / h] = 0;
-            game.pacman.score += 10;
+        if (game.map[game.pacMan.x / w][game.pacMan.y / h] == 1) {
+            game.map[game.pacMan.x / w][game.pacMan.y / h] = 0;
+            game.pacMan.score += 10;
         }
 
-        switch (game.pacman.direction) {
+        switch (game.pacMan.direction) {
             case 0: {
-                if (game.map[(game.pacman.x - 1) / w][(game.pacman.y + h / 2) / h] != 2) {
-                    game.pacman.x -= 1;
+                if (game.map[(game.pacMan.x - 1) / w][(game.pacMan.y + h / 2) / h] != 2) {
+                    game.pacMan.x -= 1;
                 }
                 break;
             }
             case 1: {
-                if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y - 1) / h] != 2) {
-                    game.pacman.y -= 1;
+                if (game.map[(game.pacMan.x + w / 2) / w][(game.pacMan.y - 1) / h] != 2) {
+                    game.pacMan.y -= 1;
                 }
                 break;
             }
             case 2: {
-                if (game.map[(game.pacman.x + w) / w][(game.pacman.y + h / 2) / h] != 2) {
-                    game.pacman.x += 1;
+                if (game.map[(game.pacMan.x + w) / w][(game.pacMan.y + h / 2) / h] != 2) {
+                    game.pacMan.x += 1;
                 }
                 break;
             }
             case 3: {
-                if (game.map[(game.pacman.x + w / 2) / w][(game.pacman.y + h) / h] != 2) {
-                    game.pacman.y += 1;
+                if (game.map[(game.pacMan.x + w / 2) / w][(game.pacMan.y + h) / h] != 2) {
+                    game.pacMan.y += 1;
                 }
                 break;
             }

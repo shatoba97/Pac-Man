@@ -1,7 +1,7 @@
 package pacman.server;
 
 import pacman.api.Ghost;
-import pacman.api.Pacman;
+import pacman.api.PacMan;
 import pacman.api.ViewProperties;
 
 import java.io.*;
@@ -12,16 +12,16 @@ class Game {
     ViewProperties viewProperties;
     boolean isPlaying;
     int[][] map;
-    Pacman pacman;
+    PacMan pacMan;
     Ghost ghost;
 
     Game(String path) {
         viewProperties = new ViewProperties();
 
-        pacman = new Pacman();
-        pacman.direction = 4;
-        pacman.nextDirection = 4;
-        pacman.score = 0;
+        pacMan = new PacMan();
+        pacMan.direction = 4;
+        pacMan.nextDirection = 4;
+        pacMan.score = 0;
 
         ghost = new Ghost();
         ghost.direction = 3;
@@ -46,8 +46,8 @@ class Game {
             viewProperties.weightScreen = scanner.nextInt();
             viewProperties.heightScreen = scanner.nextInt();
 
-            pacman.x = scanner.nextInt();
-            pacman.y = scanner.nextInt();
+            pacMan.x = scanner.nextInt();
+            pacMan.y = scanner.nextInt();
 
             map = new int[hMap][wMap];
 

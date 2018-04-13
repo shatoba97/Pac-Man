@@ -27,36 +27,36 @@ public class PlayerThread extends Thread {
             switch (request) {
                 case RequestCodes.CMD_UP: {
                     if (isFirstPlayer) {
-                        gameRoom.firstGame.pacman.nextDirection = 1;
+                        gameRoom.firstGame.pacMan.nextDirection = 1;
                     } else {
-                        gameRoom.secondGame.pacman.nextDirection = 1;
+                        gameRoom.secondGame.pacMan.nextDirection = 1;
                     }
                     player.sendResponse(responseBuilder.getOKResponse());
                     break;
                 }
                 case RequestCodes.CMD_DOWN: {
                     if (isFirstPlayer) {
-                        gameRoom.firstGame.pacman.nextDirection = 3;
+                        gameRoom.firstGame.pacMan.nextDirection = 3;
                     } else {
-                        gameRoom.secondGame.pacman.nextDirection = 3;
+                        gameRoom.secondGame.pacMan.nextDirection = 3;
                     }
                     player.sendResponse(responseBuilder.getOKResponse());
                     break;
                 }
                 case RequestCodes.CMD_LEFT: {
                     if (isFirstPlayer) {
-                        gameRoom.firstGame.pacman.nextDirection = 0;
+                        gameRoom.firstGame.pacMan.nextDirection = 0;
                     } else {
-                        gameRoom.secondGame.pacman.nextDirection = 0;
+                        gameRoom.secondGame.pacMan.nextDirection = 0;
                     }
                     player.sendResponse(responseBuilder.getOKResponse());
                     break;
                 }
                 case RequestCodes.CMD_RIGHT: {
                     if (isFirstPlayer) {
-                        gameRoom.firstGame.pacman.nextDirection = 2;
+                        gameRoom.firstGame.pacMan.nextDirection = 2;
                     } else {
-                        gameRoom.secondGame.pacman.nextDirection = 2;
+                        gameRoom.secondGame.pacMan.nextDirection = 2;
                     }
                     player.sendResponse(responseBuilder.getOKResponse());
                     break;

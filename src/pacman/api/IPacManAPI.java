@@ -4,8 +4,6 @@ public interface IPacManAPI {
 
     boolean connection(String IP, int port, PacManAPI.GameType gameType);
 
-    boolean chooseGameRoom(int id);
-
     boolean toUp();
     boolean toDown();
     boolean toLeft();
@@ -14,7 +12,4 @@ public interface IPacManAPI {
     GameInfo disconnect(boolean isWait);
     GameInfo getInfoAboutLeftPlayer();
     GameInfo getInfoAboutRightPlayer();
-    GameInfo getPlayingGameRoomList();
-
-    ViewProperties getViewProperties();
 }

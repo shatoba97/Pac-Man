@@ -10,10 +10,9 @@ public class GameInfo {
 
     public int[][] map;
     public ArrayList<Ghost> ghosts;
-    public Pacman pacman;
-
-    public ArrayList<GameRoom> gameRoomsList;
+    public PacMan pacMan;
 
     public GameResult gameResult;
-}
 
+    public ViewProperties viewProperties;
+}

@@ -14,10 +14,11 @@ public class PacManAPI implements IPacManAPI {
 
     private Gson gson = new Gson();
 
-    public enum GameType {SINGLE, VERSUS, VIEW};
+    public enum GameType {SINGLE_WITH_GHOST, VERSUS_WITH_GHOST,
+        SINGLE_WITHOUT_GHOST, VERSUS_WITHOUT_GHOST}
 
     private GameInfo sendRequestCode(int requestCode) {
-        synchronized (this) {
+        synchronized (PacManAPI.class) {
             GameInfo gameInfo;
             try {
                 output.writeInt(requestCode);
@@ -50,12 +51,13 @@ public class PacManAPI implements IPacManAPI {
             return false;
         }
 
-        int type = 0;
+        int type;
         switch (gameType) {
-            case SINGLE: type = RequestCodes.SINGLE_GAME; break;
-            case VERSUS: type = RequestCodes.VERSUS_GAME; break;
-            case VIEW: type = RequestCodes.VIEW_GAME; break;
-            default: type = RequestCodes.SINGLE_GAME; break;
+            case SINGLE_WITH_GHOST: type = RequestCodes.SINGLE_GAME_WITH_GHOST; break;
+            case VERSUS_WITH_GHOST: type = RequestCodes.VERSUS_GAME_WITH_GHOST; break;
+            case SINGLE_WITHOUT_GHOST: type = RequestCodes.SINGLE_GAME_WITHOUT_GHOST; break;
+            case VERSUS_WITHOUT_GHOST: type = RequestCodes.VERSUS_GAME_WITHOUT_GHOST; break;
+            default: type = RequestCodes.SINGLE_GAME_WITHOUT_GHOST; break;
         }
 
         return sendRequestCode(type).responseCode == 200;
@@ -64,15 +66,18 @@ public class PacManAPI implements IPacManAPI {
     @Override
     public GameInfo disconnect(boolean isWait) {
         GameInfo gameInfo;
-        if (isWait) {
-            gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
-        } else {
-            gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
-        }
         try {
-            socket.close();
-            return gameInfo;
+            if (isWait) {
+                gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITH_RESULT);
+                socket.close();
+                return gameInfo;
+            } else {
+                gameInfo = sendRequestCode(RequestCodes.DISCONNECT_WITHOUT_RESULT);
+                socket.close();
+                return gameInfo;
+            }
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -87,21 +92,6 @@ public class PacManAPI implements IPacManAPI {
     public GameInfo getInfoAboutRightPlayer() {
         GameInfo gameInfo = sendRequestCode(RequestCodes.REQUEST_INFO_FOR_RIGHT_PLAYER);
         return checkResponseCode(gameInfo);
-    }
-
-    @Override
-    public GameInfo getPlayingGameRoomList() {
-        GameInfo gameInfo = sendRequestCode(RequestCodes.REQUEST_LIST_OF_GAME_ROOM);
-        return checkResponseCode(gameInfo);
-    }
-
-    @Override
-    public boolean chooseGameRoom(int id) {
-        if(sendRequestCode(RequestCodes.NOTIFY_SERVER_ABOUT_CHOOSE_GAME_ROOM_ID).responseCode == 200) {
-            return sendRequestCode(id).responseCode == 200;
-        } else {
-            return false;
-        }
     }
 
     @Override
@@ -122,20 +112,5 @@ public class PacManAPI implements IPacManAPI {
     @Override
     public boolean toRight() {
         return sendRequestCode(RequestCodes.CMD_RIGHT).responseCode == 200;
-    }
-
-    @Override
-    public ViewProperties getViewProperties() {
-        synchronized (this) {
-            ViewProperties viewProperties;
-            try {
-                output.writeInt(RequestCodes.REQUEST_VIEW_PROPERTIES);
-                String responseString = input.readUTF();
-                viewProperties = gson.fromJson(responseString, ViewProperties.class);
-            } catch (IOException ignored) {
-                return null;
-            }
-            return viewProperties;
-        }
     }
 }
