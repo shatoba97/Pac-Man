@@ -1,6 +1,7 @@
 package pacman.server;
 
 import pacman.api.GameInfo;
+import pacman.api.GameResult;
 
 import java.util.ArrayList;
 
@@ -12,32 +13,41 @@ public class ResponseBuilder {
 
     private ResponseBuilder() {}
 
-    public static ResponseBuilder getInstance() {
+    static ResponseBuilder getInstance() {
         return sResponseBuilder;
     }
     // =====================================================================
 
 
-    public GameInfo getOKResponse() {
+    GameInfo getOKResponse() {
         GameInfo gameInfo = new GameInfo();
         gameInfo.responseCode = 200;
         return gameInfo;
     }
 
-    public GameInfo getERRORResponse() {
+    GameInfo getERRORResponse() {
         GameInfo gameInfo = new GameInfo();
         gameInfo.responseCode = 404;
         return gameInfo;
     }
 
-    public GameInfo createGameInfoResponse(Game game) {
+    GameInfo createGameInfoResponse(Game game) {
         GameInfo gameInfo = new GameInfo();
         gameInfo.responseCode = 200;
         gameInfo.isPlaying = game.isPlaying;
         gameInfo.map = game.map;
-        gameInfo.pacman = game.pacMan;
+        gameInfo.pacMan = game.pacMan;
         gameInfo.ghosts = new ArrayList<>();
-        gameInfo.ghosts.add(game.ghost);
+        gameInfo.ghosts = game.ghosts;
+        gameInfo.viewProperties = game.viewProperties;
+        return gameInfo;
+    }
+
+    GameInfo createResultGameInfo(Game firstGame, Game secondGame) {
+        GameInfo gameInfo = new GameInfo();
+        gameInfo.gameResult = new GameResult();
+        gameInfo.gameResult.myScore = firstGame.pacMan.score;
+        gameInfo.gameResult.enemyScore = secondGame.pacMan.score;
         return gameInfo;
     }
 }

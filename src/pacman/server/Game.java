@@ -1,32 +1,69 @@
 package pacman.server;
 
+import pacman.api.Direction;
 import pacman.api.Ghost;
 import pacman.api.PacMan;
 import pacman.api.ViewProperties;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Game {
 
-    ViewProperties viewProperties;
     boolean isPlaying;
+    ViewProperties viewProperties;
     int[][] map;
     PacMan pacMan;
-    Ghost ghost;
+    int eat = 0;
+    ArrayList<Ghost> ghosts;
 
-    Game(String path) {
+    Game(String path, int ghostCount) {
         viewProperties = new ViewProperties();
 
         pacMan = new PacMan();
-        pacMan.direction = 4;
-        pacMan.nextDirection = 4;
+        pacMan.direction = Direction.NOTING;
+        pacMan.nextDirection = Direction.NOTING;
         pacMan.score = 0;
+        pacMan.deathCounter = 0;
 
-        ghost = new Ghost();
-        ghost.direction = 3;
-        ghost.x = 100;
-        ghost.y = 100;
+        if (ghostCount > 0) {
+            ghosts = new ArrayList<>();
+            Ghost ghost = new Ghost();
+            ghost.direction = Direction.NOTING;
+            ghost.startX = 240;
+            ghost.startY = 220;
+            ghost.x = ghost.startX;
+            ghost.y = ghost.startY;
+            ghosts.add(ghost);
+            if (ghostCount > 1) {
+                ghost = new Ghost();
+                ghost.direction = Direction.NOTING;
+                ghost.startX = 320;
+                ghost.startY = 220;
+                ghost.x = ghost.startX;
+                ghost.y = ghost.startY;
+                ghosts.add(ghost);
+                if (ghostCount > 2) {
+                    ghost = new Ghost();
+                    ghost.direction = Direction.NOTING;
+                    ghost.startX = 320;
+                    ghost.startY = 320;
+                    ghost.x = ghost.startX;
+                    ghost.y = ghost.startY;
+                    ghosts.add(ghost);
+                    if (ghostCount > 3) {
+                        ghost = new Ghost();
+                        ghost.direction = Direction.NOTING;
+                        ghost.startX = 240;
+                        ghost.startY = 320;
+                        ghost.x = ghost.startX;
+                        ghost.y = ghost.startY;
+                        ghosts.add(ghost);
+                    }
+                }
+            }
+        }
 
         isPlaying = true;
 

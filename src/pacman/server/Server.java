@@ -8,28 +8,38 @@ import java.util.ArrayList;
 
 public class Server {
 
-    private static ArrayList<Player> playersQueue = new ArrayList<>();
+    private static ArrayList<Player> playersQueueWithGhost = new ArrayList<>();
+    private static ArrayList<Player> playersQueueWithoutGhost = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         ServerSocket serverSocket = new ServerSocket(7070);
         while (true) {
             Socket socket = serverSocket.accept();
             Player player = new Player(socket);
+            System.out.println("Подключен новый игрок!");
             switch (player.getRequest()) {
-                case RequestCodes.SINGLE_GAME: {
-                    new GameRoom(player).start();
+                case RequestCodes.SINGLE_GAME_WITH_GHOST: {
+                    new GameRoom(player, 4).start();
                     break;
                 }
-                case RequestCodes.VERSUS_GAME: {
-                    playersQueue.add(player);
-                    if (playersQueue.size() > 1) {
-                        new GameRoom(playersQueue.remove(0),
-                                playersQueue.remove(0)).start();
+                case RequestCodes.VERSUS_GAME_WITH_GHOST: {
+                    playersQueueWithGhost.add(player);
+                    if (playersQueueWithGhost.size() > 1) {
+                        new GameRoom(playersQueueWithGhost.remove(0),
+                                playersQueueWithGhost.remove(0), 4).start();
                     }
                     break;
                 }
-                case RequestCodes.VIEW_GAME: {
-                    new ViewerThread(player).start();
+                case RequestCodes.SINGLE_GAME_WITHOUT_GHOST: {
+                    new GameRoom(player, 0).start();
+                    break;
+                }gt
+                case RequestCodes.VERSUS_GAME_WITHOUT_GHOST: {
+                    playersQueueWithoutGhost.add(player);
+                    if (playersQueueWithoutGhost.size() > 1) {
+                        new GameRoom(playersQueueWithoutGhost.remove(0),
+                                playersQueueWithoutGhost.remove(0), 0).start();
+                    }
                     break;
                 }
             }

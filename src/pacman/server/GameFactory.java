@@ -1,7 +1,7 @@
 package pacman.server;
 
-public abstract class GameFactory {
-    public static Game createGame() {
-        return new Game("Map.txt");
+abstract class GameFactory {
+    static Game createGame(int ghostCount) {
+        return new Game("Map.txt", ghostCount);
     }
 }
