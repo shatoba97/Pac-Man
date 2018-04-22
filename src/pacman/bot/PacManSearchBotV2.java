@@ -1,9 +1,7 @@
 package pacman.bot;
 
-import pacman.api.Direction;
-import pacman.api.GameInfo;
-import pacman.api.IPacManAPI;
-import pacman.api.ViewProperties;
+import pacman.api.*;
+import pacman.client.BotViewWindow;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -181,5 +179,13 @@ public class PacManSearchBotV2 extends PacManBot {
             }
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        IPacManAPI api = new PacManAPI();
+        if (api.connection(args[0], Integer.valueOf(args[1]), PacManAPI.GameType.SINGLE_WITHOUT_GHOST)) {
+            new PacManSearchBotV2(api).start();
+            new BotViewWindow(api, PacManAPI.GameType.SINGLE_WITHOUT_GHOST);
+        }
     }
 }

@@ -12,7 +12,7 @@ public class Server {
     private static ArrayList<Player> playersQueueWithoutGhost = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        ServerSocket serverSocket = new ServerSocket(7070);
+        ServerSocket serverSocket = new ServerSocket(Integer.valueOf(args[0]));
         while (true) {
             Socket socket = serverSocket.accept();
             Player player = new Player(socket);
