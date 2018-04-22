@@ -8,10 +8,6 @@ import pacman.client.SettingGameWindow;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //randomBot(PacManAPI.GameType.VERSUS_WITH_GHOST);
-        //searchBot(PacManAPI.GameType.SINGLE);
-        //searchBotV2(PacManAPI.GameType.VERSUS_WITH_GHOST);
-        //people(PacManAPI.GameType.VERSUS_WITHOUT_GHOST);
         new SettingGameWindow();
     }
 
