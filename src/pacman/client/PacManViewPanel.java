@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * @author Denis Kostigin
+ */
 class PacManViewPanel extends JPanel {
 
     private GameInfo leftGameInfo;

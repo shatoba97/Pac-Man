@@ -6,6 +6,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class Server {
 
     private static ArrayList<Player> playersQueueWithGhost = new ArrayList<>();

@@ -2,6 +2,9 @@ package pacman.client;
 
 import java.awt.*;
 
+/**
+ * @author Denis Kostigin
+ */
 class Rect {
 
     private static int sx;

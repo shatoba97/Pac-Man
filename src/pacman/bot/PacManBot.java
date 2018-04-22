@@ -5,6 +5,9 @@ import pacman.api.IPacManAPI;
 
 import java.util.Random;
 
+/**
+ * @author Denis Galin
+ */
 public class PacManBot extends Thread {
 
     protected IPacManAPI api;

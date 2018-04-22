@@ -1,5 +1,8 @@
 package pacman.api;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public interface IPacManAPI {
 
     boolean connection(String IP, int port, PacManAPI.GameType gameType);

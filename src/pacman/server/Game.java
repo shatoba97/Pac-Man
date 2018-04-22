@@ -9,6 +9,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * @author Alex Shatoba
+ */
 class Game {
 
     boolean isPlaying;

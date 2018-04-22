@@ -11,6 +11,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * @author Denis Kostigin
+ */
 public class PeopleViewWindow extends JFrame {
 
     private PacManViewPanel gamePanel;

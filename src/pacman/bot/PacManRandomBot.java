@@ -5,6 +5,9 @@ import pacman.api.GameInfo;
 import pacman.api.IPacManAPI;
 import pacman.api.ViewProperties;
 
+/**
+ * @author Denis Galin
+ */
 public class PacManRandomBot extends PacManBot {
 
     public PacManRandomBot(IPacManAPI api) {

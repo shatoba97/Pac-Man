@@ -4,6 +4,9 @@ import pacman.api.Direction;
 import pacman.api.GameInfo;
 import pacman.api.RequestCodes;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class PlayerThread extends Thread {
 
     private Player player;

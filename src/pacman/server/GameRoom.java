@@ -7,6 +7,9 @@ import pacman.api.Ghost;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class GameRoom extends Thread {
 
     Game firstGame;

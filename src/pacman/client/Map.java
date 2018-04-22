@@ -4,6 +4,9 @@ import pacman.api.ViewProperties;
 
 import java.awt.*;
 
+/**
+ * @author Denis Kostigin
+ */
  class Map {
 
     private static int[][] sMap;

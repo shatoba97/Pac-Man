@@ -2,6 +2,9 @@ package pacman.api;
 
 import java.util.ArrayList;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class GameInfo {
 
     public int responseCode;

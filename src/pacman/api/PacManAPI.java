@@ -6,6 +6,9 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class PacManAPI implements IPacManAPI {
 
     private Socket socket;

@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @author Denis Kostigin
+ */
 public class SettingGameWindow extends JFrame {
 
     private JPanel rootPanel;

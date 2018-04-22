@@ -6,6 +6,9 @@ import pacman.client.BotViewWindow;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * @author Denis Galin
+ */
 public class PacManSearchBotV2 extends PacManBot {
 
     public PacManSearchBotV2(IPacManAPI api) {

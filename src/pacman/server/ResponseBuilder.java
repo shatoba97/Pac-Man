@@ -5,6 +5,9 @@ import pacman.api.GameResult;
 
 import java.util.ArrayList;
 
+/**
+ * @author Alex Shatoba
+ */
 public class ResponseBuilder {
 
     // Singleton

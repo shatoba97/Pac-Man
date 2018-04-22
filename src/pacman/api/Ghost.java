@@ -1,5 +1,8 @@
 package pacman.api;
 
+/**
+ * @author Maxim Rozhkov
+ */
 public class Ghost extends Entity {
 
     public int startX;
